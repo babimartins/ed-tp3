@@ -13,11 +13,11 @@ private:
 public:
     Hash() {
         mod = 0;
-        table = nullptr;
+        table = Vector<BinaryTree<T>>();
     };
     explicit Hash(int module) {
         mod = module;
-        table = nullptr;
+        table = Vector<BinaryTree<T>>(module);
     }
 
     int hash(int key) {
