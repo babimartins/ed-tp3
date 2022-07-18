@@ -4,12 +4,11 @@
 #include <iostream>
 
 template <typename T> class Node {
-private:
+public:
     int key;
     T data;
     Node* left;
     Node* right;
-public:
     Node() {
         key = -1;
         left = nullptr;
@@ -30,10 +29,10 @@ public:
         insertRecursive(root);
     }
     Node<T> search(int key) {
-        searchRecursive(root, key);
+        return searchRecursive(root, key);
     }
     bool remove(int key) {
-        removeRecursive(root, key);
+        return removeRecursive(root, key);
     }
     void clean() {
         cleanRecursive(root);
@@ -73,18 +72,14 @@ private:
     }
     bool removeRecursive(Node<T> *r, int key) {
         Node<T> *aux;
-
         if (r == nullptr) {
             return false;
         }
-
         if (key < r->key) {
             return removeRecursive(r->left, key);
-        }
-        else if (key > r->key) {
+        } else if (key > r->key) {
             return removeRecursive(r->right, key);
-        }
-        else if (key == r->key) {
+        } else if (key == r->key) {
             if (r->right == nullptr) {
                 aux = r;
                 r = r->left;
@@ -110,11 +105,10 @@ private:
         }
     }
     void predecessor(Node<T> *q, T* &r) {
-        if(r->right !=nullptr){
+        if (r->right != nullptr) {
             predecessor(q, r->right);
             return;
         }
-
         q->data = r->data;
         q = r;
         r = r->left;
