@@ -7,33 +7,24 @@
 
 template <typename T> class Hash {
 private:
-    int mod;
     Vector<BinaryTree<T>> table;
 
 public:
     Hash() {
-        mod = 0;
         table = Vector<BinaryTree<T>>();
     };
     explicit Hash(int module) {
-        mod = module;
         table = Vector<BinaryTree<T>>(module);
     }
 
-    int hash(int key) {
-        return key % mod;
-    }
-    void insert(Node<T> leaf) {
-        int pos = hash(leaf.key);
-        table[pos].insert(leaf);
+    void insert(Node<T> leaf, int key) {
+        table[key].insert(leaf);
     }
     Node<T> search(int keyA, int keyB) {
-        int pos = hash(keyA);
-        return table[pos].search(keyB);
+        return table[keyA].search(keyB);
     }
     bool remove(int keyA, int keyB) {
-        int pos = hash(keyA);
-        return table[pos].remove(keyB);
+        return table[keyA].remove(keyB);
     }
 };
 

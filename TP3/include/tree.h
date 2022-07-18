@@ -11,21 +11,23 @@ public:
     Node* right;
     Node() {
         key = -1;
-        left = nullptr;
-        right = nullptr;
+        left = NULL;
+        right = NULL;
     };
-    Node(T d) {
+    explicit Node(T d) {
         key = -1;
         data = d;
-        left = nullptr;
-        right = nullptr;
+        left = NULL;
+        right = NULL;
     };
 };
 
 template <typename T> class BinaryTree {
 public:
+    Node<T> *root;
+
     BinaryTree() {
-        root = nullptr;
+        root = NULL;
     };
     ~BinaryTree() {
         clean();
@@ -42,15 +44,14 @@ public:
     }
     void clean() {
         cleanRecursive(root);
-        root = nullptr;
+        root = NULL;
     }
 
 private:
-    Node<T> *root;
-
-    void insertRecursive(Node<T> *r, Node<T> leaf) {
-        if (r == nullptr) {
+    void insertRecursive(Node<T>* &r, Node<T> leaf) {
+        if (r == NULL) {
             r = new Node<T>();
+            r->key = leaf.key;
             r->data = leaf.data;
         } else {
             if (leaf.key < r->key) {
@@ -63,7 +64,7 @@ private:
     Node<T> searchRecursive(Node<T> *r, int key) {
         Node<T> aux;
         aux.key = -1;
-        if (r == nullptr) {
+        if (r == NULL) {
             return aux;
         }
         if (key < r->key) {
@@ -78,7 +79,7 @@ private:
     }
     bool removeRecursive(Node<T> *r, int key) {
         Node<T> *aux;
-        if (r == nullptr) {
+        if (r == NULL) {
             return false;
         }
         if (key < r->key) {
@@ -86,15 +87,21 @@ private:
         } else if (key > r->key) {
             return removeRecursive(r->right, key);
         } else if (key == r->key) {
-            if (r->right == nullptr) {
+            if (r->right == NULL) {
                 aux = r;
                 r = r->left;
-                free(aux);
+                if (r->key == root->key) {
+                    root = r->left;
+                }
+                delete(aux);
             }
-            else if (r->left == nullptr) {
+            else if (r->left == NULL) {
                 aux = r;
+                if (r->key == root->key) {
+                    root = r->right;
+                }
                 r = r->right;
-                free(aux);
+                delete(aux);
             } else {
                 predecessor(r, r->left);
             }
@@ -104,21 +111,21 @@ private:
         }
     }
     void cleanRecursive(Node<T> *r) {
-        if(r != nullptr){
+        if(r != NULL){
             cleanRecursive(r->left);
             cleanRecursive(r->right);
             delete r;
         }
     }
     void predecessor(Node<T> *q, Node<T>* &r) {
-        if (r->right != nullptr) {
+        if (r->right != NULL) {
             predecessor(q, r->right);
             return;
         }
         q->data = r->data;
         q = r;
         r = r->left;
-        free(q);
+        delete(q);
     }
 };
 
