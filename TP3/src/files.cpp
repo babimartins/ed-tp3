@@ -30,6 +30,11 @@ void handleFiles(const std::string &inputFilename, const std::string &outputFile
                 Node<Email> node = Node<Email>(email);
                 hash.insert(node);
             } else if (command == "CONSULTA") {
+                int userKey, emailKey;
+                input >> userKey >> emailKey;
+                Node<Email> email = hash.search(userKey, emailKey);
+                std::string message = (email.data.key == -1) ? "MENSAGEM INEXISTENTE" : email.data.message;
+                output << "CONSULTA " << userKey << " " << emailKey << ": " << message << std::endl;
             } else if (command == "APAGA") {
             }
         }
