@@ -26,7 +26,7 @@ public:
     }
 
     void insert(Node<T> leaf) {
-        insertRecursive(root);
+        insertRecursive(root, leaf);
     }
     Node<T> search(int key) {
         return searchRecursive(root, key);
