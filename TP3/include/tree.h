@@ -110,7 +110,7 @@ private:
             delete r;
         }
     }
-    void predecessor(Node<T> *q, T* &r) {
+    void predecessor(Node<T> *q, Node<T>* &r) {
         if (r->right != nullptr) {
             predecessor(q, r->right);
             return;

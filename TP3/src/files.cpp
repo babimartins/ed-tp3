@@ -36,6 +36,11 @@ void handleFiles(const std::string &inputFilename, const std::string &outputFile
                 std::string message = (email.data.key == -1) ? "MENSAGEM INEXISTENTE" : email.data.message;
                 output << "CONSULTA " << userKey << " " << emailKey << ": " << message << std::endl;
             } else if (command == "APAGA") {
+                int userKey, emailKey;
+                input >> userKey >> emailKey;
+                bool removed = hash.remove(userKey, emailKey);
+                std::string message = removed ? "OK: MENSAGEM APAGADA" : "ERRO: MENSAGEM INEXISTENTE";
+                std::cout << message << std::endl;
             }
         }
     }
