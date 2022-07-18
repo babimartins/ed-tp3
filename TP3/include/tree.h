@@ -14,6 +14,12 @@ public:
         left = nullptr;
         right = nullptr;
     };
+    Node(T d) {
+        key = -1;
+        data = d;
+        left = nullptr;
+        right = nullptr;
+    };
 };
 
 template <typename T> class BinaryTree {
