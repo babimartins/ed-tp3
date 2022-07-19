@@ -31,7 +31,6 @@ void parse_args(int argc, char** argv) {
     erroAssert(outputFile.length() > 0, "main - É necessário fornecer o nome do arquivo de saída");
 }
 
-
 int main(int argc, char ** argv) {
     parse_args(argc, argv);
     handleFiles(inputFile, outputFile);

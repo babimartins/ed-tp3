@@ -53,19 +53,6 @@ public:
         }
     }
 
-    T get(int index) {
-        if (index < size) return arr[index];
-    };
-
-    int getIndex(T data) {
-        for (int i = 0; i < size; ++i) {
-            if (arr[i] == data) {
-                return i;
-            }
-        }
-        return -1;
-    };
-
     void pop() {
         size--;
     };
@@ -80,22 +67,6 @@ public:
     int length() const { return size; };
 
     bool empty() const { return size <= 0; };
-
-    bool contains(T data) const {
-        for (int i = 0; i < size; ++i) {
-            if (arr[i] == data)
-                return true;
-        }
-        return false;
-    };
-
-    void swap(int left, int right) {
-        if (left >= 0 && right <= size) {
-            T aux = arr[left];
-            arr[left] = arr[right];
-            arr[right] = aux;
-        }
-    };
 
     T& operator[](int i) {
         return arr[i];

@@ -30,9 +30,6 @@ public:
 
     BinaryTree() {
         root = NULL;
-    };
-    ~BinaryTree() {
-        clean();
     }
 
     void insert(Node<T> leaf) {
@@ -43,10 +40,6 @@ public:
     }
     bool remove(int keyA, int keyB) {
         return removeRecursive(root, keyA, keyB);
-    }
-    void clean() {
-        cleanRecursive(root);
-        root = NULL;
     }
 
 private:
@@ -112,13 +105,6 @@ private:
             return true;
         } else {
             return false;
-        }
-    }
-    void cleanRecursive(Node<T> *r) {
-        if(r != NULL){
-            cleanRecursive(r->left);
-            cleanRecursive(r->right);
-            delete r;
         }
     }
     void predecessor(Node<T> *q, Node<T>* &r) {
