@@ -5,17 +5,19 @@
 
 template <typename T> class Node {
 public:
-    int key;
+    int keyA, keyB;
     T data;
     Node* left;
     Node* right;
     Node() {
-        key = -1;
+        keyA = -1;
+        keyB = -1;
         left = NULL;
         right = NULL;
     };
     explicit Node(T d) {
-        key = -1;
+        keyA = -1;
+        keyB = -1;
         data = d;
         left = NULL;
         right = NULL;
@@ -36,11 +38,11 @@ public:
     void insert(Node<T> leaf) {
         insertRecursive(root, leaf);
     }
-    Node<T> search(int key) {
-        return searchRecursive(root, key);
+    Node<T> search(int keyA, int keyB) {
+        return searchRecursive(root, keyA, keyB);
     }
-    bool remove(int key) {
-        return removeRecursive(root, key);
+    bool remove(int keyA, int keyB) {
+        return removeRecursive(root, keyA, keyB);
     }
     void clean() {
         cleanRecursive(root);
@@ -51,53 +53,55 @@ private:
     void insertRecursive(Node<T>* &r, Node<T> leaf) {
         if (r == NULL) {
             r = new Node<T>();
-            r->key = leaf.key;
+            r->keyA = leaf.keyA;
+            r->keyB = leaf.keyB;
             r->data = leaf.data;
         } else {
-            if (leaf.key < r->key) {
+            if (leaf.keyA < r->keyA) {
                 insertRecursive(r->left, leaf);
             } else {
                 insertRecursive(r->right, leaf);
             }
         }
     }
-    Node<T> searchRecursive(Node<T> *r, int key) {
+    Node<T> searchRecursive(Node<T> *r, int keyA, int keyB) {
         Node<T> aux;
-        aux.key = -1;
+        aux.keyA = -1;
+        aux.keyB = -1;
         if (r == NULL) {
             return aux;
         }
-        if (key < r->key) {
-            return searchRecursive(r->left, key);
-        } else if (key > r->key) {
-            return searchRecursive(r->right, key);
-        } else if (r->key == key) {
+        if (keyA < r->keyA) {
+            return searchRecursive(r->left, keyA, keyB);
+        } else if (keyA > r->keyA) {
+            return searchRecursive(r->right, keyA, keyB);
+        } else if (r->keyA == keyA && r->keyB == keyB) {
             return (*r);
         } else {
             return aux;
         }
     }
-    bool removeRecursive(Node<T> *r, int key) {
+    bool removeRecursive(Node<T> *r, int keyA, int keyB) {
         Node<T> *aux;
         if (r == NULL) {
             return false;
         }
-        if (key < r->key) {
-            return removeRecursive(r->left, key);
-        } else if (key > r->key) {
-            return removeRecursive(r->right, key);
-        } else if (key == r->key) {
+        if (keyA < r->keyA) {
+            return removeRecursive(r->left, keyA, keyB);
+        } else if (keyA > r->keyA) {
+            return removeRecursive(r->right, keyA, keyB);
+        } else if (keyA == r->keyA && keyB == r->keyB) {
             if (r->right == NULL) {
                 aux = r;
-                r = r->left;
-                if (r->key == root->key) {
+                if (keyA == root->keyA && keyB == root->keyB) {
                     root = r->left;
                 }
+                r = r->left;
                 delete(aux);
             }
             else if (r->left == NULL) {
                 aux = r;
-                if (r->key == root->key) {
+                if (keyA == root->keyA && keyB == root->keyB) {
                     root = r->right;
                 }
                 r = r->right;
@@ -122,8 +126,10 @@ private:
             predecessor(q, r->right);
             return;
         }
-        q->data = r->data;
         q = r;
+        q->keyA = r->keyA;
+        q->keyB = r->keyB;
+        q->data = r->data;
         r = r->left;
         delete(q);
     }

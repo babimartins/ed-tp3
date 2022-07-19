@@ -17,14 +17,14 @@ public:
         table = Vector<BinaryTree<T>>(module);
     }
 
-    void insert(Node<T> leaf, int key) {
-        table[key].insert(leaf);
+    void insert(int pos, Node<T> node) {
+        table[pos].insert(node);
     }
-    Node<T> search(int keyA, int keyB) {
-        return table[keyA].search(keyB);
+    Node<T> search(int pos, int keyA, int keyB) {
+        return table[pos].search(keyA, keyB);
     }
-    bool remove(int keyA, int keyB) {
-        return table[keyA].remove(keyB);
+    bool remove(int pos, int keyA, int keyB) {
+        return table[pos].remove(keyA, keyB);
     }
 };
 

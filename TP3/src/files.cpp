@@ -23,23 +23,24 @@ void handleFiles(const std::string &inputFilename, const std::string &outputFile
                 Node<std::string> node;
 
                 input >> destKey >> emailKey >> messageSize >> email;
-                node.key = emailKey;
+                node.keyA = emailKey;
+                node.keyB = destKey;
                 for (int i = 1; i < messageSize; ++i) {
                     std::string aux;
                     input >> aux;
                     email += " " + aux;
                 }
                 node.data = email;
-                hash.insert(node, destKey % mod);
+                hash.insert(destKey % mod, node);
 
-                output << "OK: MENSAGEM " << node.key << " PARA " << destKey << " ARMAZENADA EM " << destKey % mod << std::endl;
+                output << "OK: MENSAGEM " << node.keyA << " PARA " << node.keyB << " ARMAZENADA EM " << destKey % mod << std::endl;
 
             } else if (command == "CONSULTA") {
                 int destKey, emailKey;
                 input >> destKey >> emailKey;
 
-                Node<std::string> email = hash.search(destKey % mod, emailKey);
-                std::string message = (email.key == -1) ? "MENSAGEM INEXISTENTE" : email.data;
+                Node<std::string> email = hash.search(destKey % mod, emailKey, destKey);
+                std::string message = (email.keyA == -1 || email.keyB == -1) ? "MENSAGEM INEXISTENTE" : email.data;
 
                 output << "CONSULTA " << destKey << " " << emailKey << ": " << message << std::endl;
 
@@ -47,7 +48,7 @@ void handleFiles(const std::string &inputFilename, const std::string &outputFile
                 int destKey, emailKey;
                 input >> destKey >> emailKey;
 
-                bool removed = hash.remove(destKey % mod, emailKey);
+                bool removed = hash.remove(destKey % mod, emailKey, destKey);
                 std::string message = removed ? "OK: MENSAGEM APAGADA" : "ERRO: MENSAGEM INEXISTENTE";
 
                 output << message << std::endl;
